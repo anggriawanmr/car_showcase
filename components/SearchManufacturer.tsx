@@ -28,6 +28,7 @@ const SearchManufacturer = ({
     <div className="search-manufacturer">
       <Combobox>
         <div className="relative w-full">
+          {/* Button for the combobox. Click on the icon to see the complete dropdown */}
           <Combobox.Button className="absolute top-[14px]">
             <Image
               src="/car-logo.svg"
@@ -38,21 +39,46 @@ const SearchManufacturer = ({
             />
           </Combobox.Button>
 
+          {/* Input field for searching */}
           <Combobox.Input
             className="search-manufacturer__input"
             placeholder="Volkswagen"
             displayValue={(manufacturer: string) => manufacturer}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(event) => setQuery(event.target.value)} // Update the search query when the input changes
           />
 
+          {/* Transition for displaying the options */}
           <Transition
-            as={Fragment}
+            as={Fragment} // group multiple elements without introducing an additional DOM node i.e., <></>
             leave="transition ease-in duration-100"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
-            afterLeave={() => setQuery('')}
+            afterLeave={() => setQuery('')} // Reset the search query after the transition completes
           >
-            <Combobox.Options></Combobox.Options>
+            <Combobox.Options>
+              {filteredManufacturers.length === 0 && query !== '' ? (
+                <Combobox.Option
+                  value={query}
+                  className="search-manufacturer__option"
+                >
+                  Create "{query}"
+                </Combobox.Option>
+              ) : (
+                filteredManufacturers.map((item) => (
+                  <Combobox.Option
+                    key={item}
+                    className={({ active }) => `
+                  relative search-manufacturer__option ${
+                    active ? 'bg-primary-blue text-white' : 'text-gray-900'
+                  }
+                `}
+                    value={item}
+                  >
+                    {item}
+                  </Combobox.Option>
+                ))
+              )}
+            </Combobox.Options>
           </Transition>
         </div>
       </Combobox>
