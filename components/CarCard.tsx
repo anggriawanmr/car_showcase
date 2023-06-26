@@ -1,6 +1,16 @@
-import React from 'react';
+'use client';
 
-const CarCard = () => {
+import { useState } from 'react';
+import Image from 'next/image';
+
+import { CarProps } from '@/types';
+import CustomButton from './CustomButton';
+
+interface CarCardProps {
+  car: CarProps;
+}
+
+const CarCard = ({ car }: CarCardProps) => {
   return <div>CarCard</div>;
 };
 
